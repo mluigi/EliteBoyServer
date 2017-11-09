@@ -142,5 +142,12 @@ class CommanderService {
         settings.toFile()
     }
 
+    @PostConstruct
+    fun autoStart() {
+        if (commander.restApiPassword.isNotEmpty()) {
+            start()
+        }
+    }
+
     companion object : KLogging()
 }

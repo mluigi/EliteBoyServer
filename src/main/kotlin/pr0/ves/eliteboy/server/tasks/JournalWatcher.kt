@@ -35,7 +35,6 @@ class JournalWatcher : Task {
                                 val filename = (it.context() as Path).toString()
                                 journals[filename] = Journal(filename)
                                 service.db.journalRepo.save(journals[filename])
-                                logger.info { "Journal created" }
                             }
                             it.kind() == StandardWatchEventKinds.ENTRY_MODIFY -> {
                                 val filename = (it.context() as Path).toString()
@@ -47,7 +46,6 @@ class JournalWatcher : Task {
                                         service.db.journalRepo.save(journals[filename])
                                     }
                                 }
-                                logger.info("Journal modified")
                                 val newEntries = journals[filename]!!.readJournal()
                                 journals.entries.removeIf { it.key != filename }
                                 listeners.forEach {
@@ -58,7 +56,7 @@ class JournalWatcher : Task {
                     }
                 }
                 if (!key.reset()) {
-                    logger.info { "Exiting from journal watcher" }
+                    logger.error { "Exiting from journal watcher" }
                     cancel()
                 }
             } else {
