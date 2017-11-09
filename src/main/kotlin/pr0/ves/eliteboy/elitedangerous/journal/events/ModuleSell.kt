@@ -1,0 +1,17 @@
+package pr0.ves.eliteboy.elitedangerous.journal.events
+
+import com.google.gson.annotations.SerializedName
+import pr0.ves.eliteboy.elitedangerous.journal.JournalEntry
+
+import javax.persistence.Entity
+
+@Entity
+class ModuleSell : JournalEntry() {
+    var Slot: String? = null
+    var SellItem: String? = null
+    @SerializedName("SellItem_Localised")
+    var SellItemLocalised: String? = null
+    var SellPrice: Long = 0
+    var Ship: String? = null
+    var ShipID: Int = 0
+}
