@@ -228,7 +228,6 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
 
                                     json.addProperty("\$schemaRef", COMMODITY_REF)
                                     json.add("message", message(market, lastStarSystem))
-                                    println(json.toString())
                                     sendData(json.toString())
 
                                     val shipyardMessage = message(shipyard, lastStarSystem)

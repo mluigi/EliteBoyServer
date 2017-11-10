@@ -145,6 +145,7 @@ class CommanderService {
     @PostConstruct
     fun autoStart() {
         if (commander.restApiPassword.isNotEmpty()) {
+            logger.info { "Starting CMDR ${commander.name}" }
             start()
         }
     }
