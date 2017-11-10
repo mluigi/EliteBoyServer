@@ -278,20 +278,11 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
         }
     }
 }
-
-/*fun main(args: Array<String>) {
+/*
+fun main(args: Array<String>) {
     val commander = Commander.fromFile("Pr0ves")
-    val api = EDDNApi(commander.name)
     val edapi = EDCompanionApi(commander)
-    api.edApi = edapi
-    api.edApi!!.login()
-    val journal = Journal()
-    val dock = "{ \"timestamp\":\"2017-11-09T12:22:21Z\", \"event\":\"Docked\", \"StationName\":\"Patterson Dock\", \"StationType\":\"Orbis\", \"StarSystem\":\"Uszaa\", \"StationFaction\":\"Orrere Energy Company\", \"StationGovernment\":\"\$government_Corporate;\", \"StationGovernment_Localised\":\"Corporate\", \"StationAllegiance\":\"Federation\", \"StationServices\":[ \"Dock\", \"Autodock\", \"BlackMarket\", \"Commodities\", \"Contacts\", \"Exploration\", \"Missions\", \"Outfitting\", \"CrewLounge\", \"Rearm\", \"Refuel\", \"Repair\", \"Shipyard\", \"Tuning\", \"MissionsGenerated\", \"Facilitator\", \"FlightController\", \"StationOperations\", \"Powerplay\", \"SearchAndRescue\" ], \"StationEconomy\":\"\$economy_Industrial;\", \"StationEconomy_Localised\":\"Industrial\", \"DistFromStarLS\":1232.918091 }\n"
-    val docked = journal.getJournalEntryTyped(dock)
-    val fsd = "{ \"timestamp\":\"2017-11-09T12:17:47Z\", \"event\":\"FSDJump\", \"StarSystem\":\"Uszaa\", \"StarPos\":[68.844,48.750,74.750], \"SystemAllegiance\":\"Federation\", \"SystemEconomy\":\"\$economy_Industrial;\", \"SystemEconomy_Localised\":\"Industrial\", \"SystemGovernment\":\"\$government_Corporate;\", \"SystemGovernment_Localised\":\"Corporate\", \"SystemSecurity\":\"\$SYSTEM_SECURITY_low;\", \"SystemSecurity_Localised\":\"Low Security\", \"Population\":3199999988, \"Powers\":[ \"Edmund Mahon\" ], \"PowerplayState\":\"Exploited\", \"JumpDist\":17.790, \"FuelUsed\":2.858732, \"FuelLevel\":78.619148, \"Factions\":[ { \"Name\":\"Pilots Federation Local Branch\", \"FactionState\":\"None\", \"Government\":\"Democracy\", \"Influence\":0.000000, \"Allegiance\":\"PilotsFederation\" }, { \"Name\":\"Uszaa Society\", \"FactionState\":\"Boom\", \"Government\":\"Anarchy\", \"Influence\":0.039039, \"Allegiance\":\"Independent\" }, { \"Name\":\"Uszaa Jet Galactic & Co\", \"FactionState\":\"CivilWar\", \"Government\":\"Corporate\", \"Influence\":0.063063, \"Allegiance\":\"Independent\" }, { \"Name\":\"Orrere Energy Company\", \"FactionState\":\"None\", \"Government\":\"Corporate\", \"Influence\":0.549550, \"Allegiance\":\"Federation\", \"RecoveringStates\":[ { \"State\":\"Boom\", \"Trend\":1 } ] }, { \"Name\":\"Union of Arexe Future\", \"FactionState\":\"Boom\", \"Government\":\"Democracy\", \"Influence\":0.071071, \"Allegiance\":\"Federation\" }, { \"Name\":\"Worker's Party of Uszaa\", \"FactionState\":\"Boom\", \"Government\":\"Communism\", \"Influence\":0.050050, \"Allegiance\":\"Independent\" }, { \"Name\":\"Liberty Party of Uszaa\", \"FactionState\":\"CivilWar\", \"Government\":\"Dictatorship\", \"Influence\":0.069069, \"Allegiance\":\"Independent\" }, { \"Name\":\"Uszaa Gold Travel Group\", \"FactionState\":\"Boom\", \"Government\":\"Corporate\", \"Influence\":0.158158, \"Allegiance\":\"Federation\" } ], \"SystemFaction\":\"Orrere Energy Company\" }\n"
-    val fsdjump = journal.getJournalEntryTyped(fsd)
-    api.getEntries(ArrayList<JournalEntry>().also {
-        it.add(fsdjump)
-        it.add(docked)
-    })
+    edapi.login()
+    val kk = edapi.getMarket()
+    true
 }*/
