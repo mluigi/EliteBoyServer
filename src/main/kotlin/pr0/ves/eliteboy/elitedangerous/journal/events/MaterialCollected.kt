@@ -8,5 +8,5 @@ import javax.persistence.Entity
 class MaterialCollected : JournalEntry() {
     var Category: String? = null
     var Name: String? = null
-    var Count: Int = 0
+    var Count: Int? = null
 }

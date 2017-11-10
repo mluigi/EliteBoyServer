@@ -12,5 +12,5 @@ class PowerState {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
     var State: String? = null
-    var Trend: Int = 0
+    var Trend: Int? = null
 }

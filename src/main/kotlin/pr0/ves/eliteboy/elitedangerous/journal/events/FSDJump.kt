@@ -15,11 +15,11 @@ import javax.persistence.OneToMany
 
 @Entity
 class FSDJump : JournalEntry(), LocOrJump {
-    var JumpDist: Double = 0.toDouble()
-    var FuelUsed: Double = 0.toDouble()
-    var FuelLevel: Double = 0.toDouble()
+    var JumpDist: Double? = null
+    var FuelUsed: Double? = null
+    var FuelLevel: Double? = null
     var BoostUsed: Int? = null
-    var BoostValue: Int = 0
+    var BoostValue: Int? = null
 
     override var StarSystem: String? = null
     @ElementCollection

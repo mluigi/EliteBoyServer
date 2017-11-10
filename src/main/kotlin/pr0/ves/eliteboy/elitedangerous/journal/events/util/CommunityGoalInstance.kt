@@ -11,19 +11,19 @@ class CommunityGoalInstance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
-    var CGID: Int = 0
+    var CGID: Int? = null
     var Title: String? = null
     var SystemName: String? = null
     var MarketName: String? = null
     var Expiry: String? = null
     fun expiry(): OffsetDateTime = OffsetDateTime.parse(Expiry)
     var IsComplete: Boolean? = null
-    var CurrentTotal: Long = 0
-    var PlayerContribution: Long = 0
-    var NumContributors: Int = 0
-    var PlayerPercentileBand: Int = 0
-    var TopRankSize: Int = 0
+    var CurrentTotal: Long? = null
+    var PlayerContribution: Long? = null
+    var NumContributors: Int? = null
+    var PlayerPercentileBand: Int? = null
+    var TopRankSize: Int? = null
     var PlayerInTopRank: Boolean? = null
     var TierReached: String? = null
-    var Bonus: Long = 0
+    var Bonus: Long? = null
 }

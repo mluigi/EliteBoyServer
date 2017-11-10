@@ -11,5 +11,5 @@ class Fileheader : JournalEntry() {
     var gameVersion: String? = null
     var build: String? = null
     var language: String? = null
-    var part: Int = 0
+    var part: Int? = null
 }

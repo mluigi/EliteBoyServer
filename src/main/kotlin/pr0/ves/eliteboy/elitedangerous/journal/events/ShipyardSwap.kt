@@ -8,7 +8,7 @@ import javax.persistence.Entity
 class ShipyardSwap : JournalEntry() {
     var ShipType: String? = null
     var ShipFD: String? = null
-    var ShipID: Int = 0
+    var ShipID: Int? = null
     var StoreOldShip: String? = null
-    var StoreShipId: Int = 0
+    var StoreShipId: Int? = null
 }

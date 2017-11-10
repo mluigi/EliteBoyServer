@@ -15,7 +15,7 @@ class MissionCompleted : JournalEntry() {
     var Commodity: String? = null               // FDNAME, leave, evidence of the $_name problem
     var CommodityLocalised: String? = null
     var FriendlyCommodity: String? = null
-    var Count: Int = 0
+    var Count: Int? = null
 
     var Target: String? = null
     var TargetLocalised: String? = null
@@ -28,11 +28,11 @@ class MissionCompleted : JournalEntry() {
     var DestinationSystem: String? = null
     var DestinationStation: String? = null
 
-    var Reward: Long = 0
-    var Donation: Long = 0
+    var Reward: Long? = null
+    var Donation: Long? = null
     @ElementCollection
     var PermitsAwarded: MutableSet<String>? = null
-    var MissionId: Int = 0
+    var MissionId: Int? = null
     @OneToMany(cascade = arrayOf(CascadeType.ALL), targetEntity = CommodityRew::class)
     var CommodityReward: MutableSet<CommodityRew>? = null
 }

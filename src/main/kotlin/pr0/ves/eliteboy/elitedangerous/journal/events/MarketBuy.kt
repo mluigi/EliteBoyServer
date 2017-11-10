@@ -7,7 +7,7 @@ import javax.persistence.Entity
 @Entity
 class MarketBuy : JournalEntry() {
     var Type: String? = null
-    var Count: Int = 0
-    var BuyPrice: Long = 0
-    var TotalCost: Long = 0
+    var Count: Int? = null
+    var BuyPrice: Long? = null
+    var TotalCost: Long? = null
 }

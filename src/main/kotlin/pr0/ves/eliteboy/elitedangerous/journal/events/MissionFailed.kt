@@ -7,5 +7,5 @@ import javax.persistence.Entity
 @Entity
 class MissionFailed : JournalEntry() {
     var Name: String? = null
-    var MissionId: Int = 0
+    var MissionId: Int? = null
 }

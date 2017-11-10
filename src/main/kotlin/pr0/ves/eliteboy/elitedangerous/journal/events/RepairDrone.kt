@@ -6,7 +6,7 @@ import javax.persistence.Entity
 
 @Entity
 class RepairDrone : JournalEntry() {
-    var HullRepaired: Double = 0.toDouble()
-    var CockpitRepaired: Double = 0.toDouble()
-    var CorrosionRepaired: Double = 0.toDouble()
+    var HullRepaired: Double? = null
+    var CockpitRepaired: Double? = null
+    var CorrosionRepaired: Double? = null
 }

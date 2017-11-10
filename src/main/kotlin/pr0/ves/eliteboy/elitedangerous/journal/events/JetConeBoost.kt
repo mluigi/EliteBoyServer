@@ -6,5 +6,5 @@ import javax.persistence.Entity
 
 @Entity
 class JetConeBoost : JournalEntry() {
-    var BoostValue: Double = 0.toDouble()
+    var BoostValue: Double? = null
 }

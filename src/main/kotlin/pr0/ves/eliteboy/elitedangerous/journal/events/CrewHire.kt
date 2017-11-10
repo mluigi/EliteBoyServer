@@ -8,7 +8,7 @@ import javax.persistence.Entity
 class CrewHire : JournalEntry() {
     var Name: String? = null
     var Faction: String? = null
-    var Cost: Long = 0
+    var Cost: Long? = null
     var CombatRank: Int? = null
     fun combatRank() = values()[CombatRank!!]
 }

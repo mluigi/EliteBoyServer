@@ -5,13 +5,11 @@ import mu.KLogging
 import pr0.ves.eliteboy.elitedangerous.companionapi.EDCompanionApi
 import pr0.ves.eliteboy.elitedangerous.companionapi.data.Market
 import pr0.ves.eliteboy.elitedangerous.companionapi.data.Shipyard
-import pr0.ves.eliteboy.elitedangerous.journal.Journal
 import pr0.ves.eliteboy.elitedangerous.journal.JournalEntry
 import pr0.ves.eliteboy.elitedangerous.journal.events.*
 import pr0.ves.eliteboy.elitedangerous.journal.events.deserializers.IngredientsDeserializer
 import pr0.ves.eliteboy.elitedangerous.journal.events.deserializers.ScanDeserializer
 import pr0.ves.eliteboy.elitedangerous.journal.events.util.BlueprintIngredients
-import pr0.ves.eliteboy.server.Commander
 import pr0.ves.eliteboy.server.listeners.JournalWatcherListener
 import java.io.DataOutputStream
 import java.net.HttpURLConnection
@@ -31,9 +29,9 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
         val fromSoftwareVersion = "1.0"
     }
 
-    var lastStarSystem = ""
-    var lastStarPos: List<Double> = ArrayList()
-    var lastStation = ""
+    private var lastStarSystem = ""
+    private var lastStarPos: List<Double> = ArrayList()
+    private var lastStation = ""
 
     var edApi: EDCompanionApi? = null
 
@@ -52,7 +50,7 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
             .registerTypeAdapter(BlueprintIngredients::class.java, IngredientsDeserializer())
             .create()!!
 
-    fun headers(): JsonObject {
+    private fun headers(): JsonObject {
         val jsonObject = JsonObject()
 
         jsonObject.addProperty("uploaderID", commander)
@@ -61,7 +59,7 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
         return jsonObject
     }
 
-    fun sendData(data: String) {
+    private fun sendData(data: String) {
         val connection = URL(UPLOAD).openConnection() as HttpURLConnection
         connection.requestMethod = "POST"
         connection.setRequestProperty("Content-Type", "application/json")
@@ -69,10 +67,10 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
         connection.doInput = true
         DataOutputStream(connection.outputStream).writeBytes(data)
         connection.connect()
-        logger.info { "${connection.responseCode} ${connection.responseMessage}" }
+        logger.debug { "${connection.responseCode} ${connection.responseMessage}" }
     }
 
-    fun message(jump: FSDJump): JsonObject {
+    private fun message(jump: FSDJump): JsonObject {
         val message = gson.toJsonTree(jump).asJsonObject
         lastStarPos = jump.StarPos!!.toList()
         removeLocalFields(message)
@@ -84,7 +82,7 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
         return message
     }
 
-    fun message(dock: Docked, starpos: List<Double>): JsonObject {
+    private fun message(dock: Docked, starpos: List<Double>): JsonObject {
         val message = gson.toJsonTree(dock).asJsonObject
         removeLocalFields(message)
         message.remove("CockpitBreach")
@@ -93,21 +91,16 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
         return message
     }
 
-    fun message(scan: Scan, starSystem: String, starpos: List<Double>): JsonObject {
+    private fun message(scan: Scan, starSystem: String, starpos: List<Double>): JsonObject {
         val message = gson.toJsonTree(scan).asJsonObject
         removeLocalFields(message)
         message.entrySet().removeIf { it.key.contains("Localised") }
         message.add("StarPos", gson.toJsonTree(starpos))
         message.addProperty("StarSystem", starSystem)
-        message.remove("AbsoluteMagnitude")
-        message.remove("nSurfaceTemperature")
-        message.remove("StellarMass")
-        message.remove("Age_MY")
-        message.remove("nRotationPeriod")
         return message
     }
 
-    fun message(location: Location): JsonObject {
+    private fun message(location: Location): JsonObject {
         val message = gson.toJsonTree(location).asJsonObject
         removeLocalFields(message)
         message.entrySet().removeIf { it.key.contains("Localised") }
@@ -116,7 +109,7 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
         return message
     }
 
-    fun message(market: Market, starSystem: String): JsonObject {
+    private fun message(market: Market, starSystem: String): JsonObject {
         val message = gson.toJsonTree(market).asJsonObject
         removeLocalFields(message)
         message.remove("exported")
@@ -149,7 +142,7 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
         return message
     }
 
-    fun message(shipyard: Shipyard, starSystem: String): JsonObject {
+    private fun message(shipyard: Shipyard, starSystem: String): JsonObject {
         val message = gson.toJsonTree(shipyard).asJsonObject
         removeLocalFields(message)
         message.remove("economies")
@@ -159,18 +152,23 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
         message.remove("outpostType")
         message.remove("services")
         var array = JsonArray()
-        message["modules"].asJsonObject.entrySet().forEach { array.add(it.value.asJsonObject["name"]) }
-        message.remove("modules")
-        message.add("modules", array)
 
-        array = JsonArray()
-        message["ships"].asJsonObject["shipyard_list"].asJsonObject.entrySet().forEach { array.add(it.key) }
-        val un = message["ships"].asJsonObject["unavailable_list"]
-        if (!un.isJsonArray) {
-            un.asJsonObject.entrySet().forEach { array.add(it.key) }
+        if (message.has("modules")) {
+            message["modules"].asJsonObject.entrySet().forEach { array.add(it.value.asJsonObject["name"]) }
+            message.remove("modules")
+            message.add("modules", array)
         }
-        message.remove("ships")
-        message.add("ships", array)
+
+        if (message.has("ships")) {
+            array = JsonArray()
+            message["ships"].asJsonObject["shipyard_list"].asJsonObject.entrySet().forEach { array.add(it.key) }
+            val un = message["ships"].asJsonObject["unavailable_list"]
+            if (!un.isJsonArray) {
+                un.asJsonObject.entrySet().forEach { array.add(it.key) }
+            }
+            message.remove("ships")
+            message.add("ships", array)
+        }
 
         message.addProperty("stationName", message["name"].asString)
         message.remove("name")
@@ -190,7 +188,7 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
         return message
     }
 
-    fun removeLocalFields(obj: JsonObject) {
+    private fun removeLocalFields(obj: JsonObject) {
         obj.remove("id")
         obj.remove("nLine")
     }

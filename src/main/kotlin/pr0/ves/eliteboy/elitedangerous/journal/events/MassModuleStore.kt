@@ -7,7 +7,7 @@ import javax.persistence.*
 class MassModuleStore : JournalEntry() {
     var Ship: String? = null
     var ShipFD: String? = null
-    var ShipID: Int = 0
+    var ShipID: Int? = null
     @OneToMany(cascade = arrayOf(CascadeType.ALL), targetEntity = ModuleItem::class)
     var ModuleItems: MutableSet<ModuleItem>? = null
 

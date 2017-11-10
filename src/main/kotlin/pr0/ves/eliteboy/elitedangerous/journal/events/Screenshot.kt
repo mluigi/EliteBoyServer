@@ -8,10 +8,10 @@ import javax.persistence.Entity
 class Screenshot : JournalEntry() {
 
     var Filename: String? = null
-    var Width: Int = 0
-    var Height: Int = 0
+    var Width: Int? = null
+    var Height: Int? = null
     var System: String? = null
     var Body: String? = null
-    var nLatitude: Double = 0.toDouble()
-    var nLongitude: Double = 0.toDouble()
+    var nLatitude: Double? = null
+    var nLongitude: Double? = null
 }
