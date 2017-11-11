@@ -293,8 +293,8 @@ class EDSMApi(var commander: String = "", var apiKey: String = "") : JournalWatc
         val mats = materials.Manufactured!!
         mats.addAll(materials.Raw!!)
         val map = mutableMapOf<String, Int>()
-        mats.forEach {
-            map[it.Name!!] = it.Count
+        mats.forEach { it ->
+            map[it.Name!!] = it.Count!!
         }
         val query = "type=materials" +
                 "&values=${Gson().toJson(map)}"
@@ -304,7 +304,7 @@ class EDSMApi(var commander: String = "", var apiKey: String = "") : JournalWatc
     fun setData(materials: Materials) {
         val map = mutableMapOf<String, Int>()
         materials.Encoded!!.forEach {
-            map[it.Name!!] = it.Count
+            map[it.Name!!] = it.Count!!
         }
         val query = "type=data" +
                 "&values=${Gson().toJson(map)}"
@@ -332,7 +332,7 @@ class EDSMApi(var commander: String = "", var apiKey: String = "") : JournalWatc
                         setLog(it)
                     }
                     is LoadGame -> {
-                        setCredits(it.Credits, it.Loan)
+                        setCredits(it.Credits!!, it.Loan!!)
                     }
                     is Rank -> {
                         setRanks(it)
