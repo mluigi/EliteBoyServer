@@ -97,8 +97,8 @@ class CommanderService {
             }
         }
         commander.toFile()
-        if (edApi == null)
-            edApi = EDCompanionApi(commander)
+
+        edApi = edApi ?: EDCompanionApi(commander)
         return when (edApi!!.currentState) {
             NEEDS_LOGIN -> {
                 edApi!!.login()
