@@ -89,7 +89,6 @@ class JournalWatcher : Task {
                 service.db.journalRepo.save(it)
             }
         }
-
     }
 
     companion object : KLogging()

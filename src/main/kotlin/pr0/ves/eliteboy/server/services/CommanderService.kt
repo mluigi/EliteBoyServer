@@ -64,7 +64,6 @@ class CommanderService {
         commander.runningLatch = CountDownLatch(1)
         commander.phaser = Phaser(1)
 
-
         commander.task(journalWatcher, this)
     }
 
@@ -129,6 +128,7 @@ class CommanderService {
             }
         }
         updateCommanders()
+        autoStart()
     }
 
     fun updateCommanders() {
@@ -142,7 +142,6 @@ class CommanderService {
         settings.toFile()
     }
 
-    @PostConstruct
     fun autoStart() {
         if (commander.restApiPassword.isNotEmpty()) {
             logger.info { "Starting CMDR ${commander.name}" }
