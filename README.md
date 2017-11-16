@@ -1,6 +1,9 @@
 # EliteBoyServer
 [![Build Status](https://travis-ci.org/pr0ves/EliteBoyServer.svg?branch=develop)](https://travis-ci.org/pr0ves/EliteBoyServer)
 
+## Usage
+Clone this repo and run `gradlew bootRun` from console.
+
 ## Using the REST Api
 ### Authentication
 
