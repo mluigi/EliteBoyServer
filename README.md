@@ -27,7 +27,7 @@ The token must be requested every time a session is started.
   Parameters: 
     + `page`: Int, default value 0
   - WebSocket `/api/cmdr/listenForEntries` => This send the entries as they are read from the journal through a web socket. 
-  Whoever connects here, also needs to subribe to `/api/stomp/entries` to receive the entries.
+  Whoever connects here, also needs to subscribe to `/api/stomp/entries` to receive the entries.
   
 * EDCompanionApi endpoints:
   - POST `/api/cmdr/edapi/login` => Allows to login to the Companion api. 
