@@ -37,13 +37,8 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
 
     val gson = GsonBuilder()
             .setExclusionStrategies(object : ExclusionStrategy {
-                override fun shouldSkipField(f: FieldAttributes): Boolean {
-                    return f.name.equals("journal", true)
-                }
-
-                override fun shouldSkipClass(aClass: Class<*>): Boolean {
-                    return false
-                }
+                override fun shouldSkipField(f: FieldAttributes): Boolean = f.name.equals("journal", true)
+                override fun shouldSkipClass(aClass: Class<*>): Boolean = false
             })
             .setPrettyPrinting()
             .registerTypeAdapter(Scan::class.java, ScanDeserializer())

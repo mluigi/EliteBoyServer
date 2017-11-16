@@ -11,4 +11,6 @@ class ShipyardSwap : JournalEntry() {
     var ShipID: Int? = null
     var StoreOldShip: String? = null
     var StoreShipId: Int? = null
+    var SellOldShip: String? = null
+    var SellShipId: Int? = null
 }
