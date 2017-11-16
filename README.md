@@ -17,7 +17,7 @@ You need to follow these steps to get authenticated:
 * This returns:
   - if it's the first time, a json with: ```{"message" : "Success", "restPassword": password , "token": token}```
   - if already authenticated, a json with: ```{"message" : "Success", "token": token}```
-  - an error message if `CMDRName` is not in the possible commander lists; this list is made while the server creates the db reading the journals.
+  - an error message if `CMDRName` is not in the possible commander list; this list is made while the server creates the db reading the journals.
 
 * Once obtained the token, this must be added to every request made in the `X-EBOY-ACCESS-TOKEN` header 
 
