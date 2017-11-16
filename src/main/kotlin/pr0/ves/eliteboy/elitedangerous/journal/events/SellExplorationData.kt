@@ -10,6 +10,6 @@ class SellExplorationData : JournalEntry() {
     var Systems: MutableSet<String>? = null
     @ElementCollection
     var Discovered: MutableSet<String>? = null
-    var BaseValue: Long? = null
-    var Bonus: Long? = null
+    var BaseValue: Long = 0
+    var Bonus: Long = 0
 }

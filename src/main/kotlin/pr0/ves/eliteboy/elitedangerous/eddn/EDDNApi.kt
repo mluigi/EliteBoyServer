@@ -5,11 +5,13 @@ import mu.KLogging
 import pr0.ves.eliteboy.elitedangerous.companionapi.EDCompanionApi
 import pr0.ves.eliteboy.elitedangerous.companionapi.data.Market
 import pr0.ves.eliteboy.elitedangerous.companionapi.data.Shipyard
+import pr0.ves.eliteboy.elitedangerous.journal.Journal
 import pr0.ves.eliteboy.elitedangerous.journal.JournalEntry
 import pr0.ves.eliteboy.elitedangerous.journal.events.*
 import pr0.ves.eliteboy.elitedangerous.journal.events.deserializers.IngredientsDeserializer
 import pr0.ves.eliteboy.elitedangerous.journal.events.deserializers.ScanDeserializer
 import pr0.ves.eliteboy.elitedangerous.journal.events.util.BlueprintIngredients
+import pr0.ves.eliteboy.server.Commander
 import pr0.ves.eliteboy.server.listeners.JournalWatcherListener
 import java.io.DataOutputStream
 import java.net.HttpURLConnection
@@ -29,23 +31,28 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
         val fromSoftwareVersion = "1.0"
     }
 
-    private var lastStarSystem = ""
-    private var lastStarPos: List<Double> = ArrayList()
-    private var lastStation = ""
+    var lastStarSystem = ""
+    var lastStarPos: List<Double> = ArrayList()
+    var lastStation = ""
 
     var edApi: EDCompanionApi? = null
 
     val gson = GsonBuilder()
             .setExclusionStrategies(object : ExclusionStrategy {
-                override fun shouldSkipField(f: FieldAttributes): Boolean = f.name.equals("journal", true)
-                override fun shouldSkipClass(aClass: Class<*>): Boolean = false
+                override fun shouldSkipField(f: FieldAttributes): Boolean {
+                    return f.name.equals("journal", true)
+                }
+
+                override fun shouldSkipClass(aClass: Class<*>): Boolean {
+                    return false
+                }
             })
             .setPrettyPrinting()
             .registerTypeAdapter(Scan::class.java, ScanDeserializer())
             .registerTypeAdapter(BlueprintIngredients::class.java, IngredientsDeserializer())
             .create()!!
 
-    private fun headers(): JsonObject {
+    fun headers(): JsonObject {
         val jsonObject = JsonObject()
 
         jsonObject.addProperty("uploaderID", commander)
@@ -54,7 +61,7 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
         return jsonObject
     }
 
-    private fun sendData(data: String) {
+    fun sendData(data: String) {
         val connection = URL(UPLOAD).openConnection() as HttpURLConnection
         connection.requestMethod = "POST"
         connection.setRequestProperty("Content-Type", "application/json")
@@ -62,10 +69,10 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
         connection.doInput = true
         DataOutputStream(connection.outputStream).writeBytes(data)
         connection.connect()
-        logger.debug { "${connection.responseCode} ${connection.responseMessage}" }
+        logger.info { "${connection.responseCode} ${connection.responseMessage}" }
     }
 
-    private fun message(jump: FSDJump): JsonObject {
+    fun message(jump: FSDJump): JsonObject {
         val message = gson.toJsonTree(jump).asJsonObject
         lastStarPos = jump.StarPos!!.toList()
         removeLocalFields(message)
@@ -77,7 +84,7 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
         return message
     }
 
-    private fun message(dock: Docked, starpos: List<Double>): JsonObject {
+    fun message(dock: Docked, starpos: List<Double>): JsonObject {
         val message = gson.toJsonTree(dock).asJsonObject
         removeLocalFields(message)
         message.remove("CockpitBreach")
@@ -86,16 +93,21 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
         return message
     }
 
-    private fun message(scan: Scan, starSystem: String, starpos: List<Double>): JsonObject {
+    fun message(scan: Scan, starSystem: String, starpos: List<Double>): JsonObject {
         val message = gson.toJsonTree(scan).asJsonObject
         removeLocalFields(message)
         message.entrySet().removeIf { it.key.contains("Localised") }
         message.add("StarPos", gson.toJsonTree(starpos))
         message.addProperty("StarSystem", starSystem)
+        message.remove("AbsoluteMagnitude")
+        message.remove("nSurfaceTemperature")
+        message.remove("StellarMass")
+        message.remove("Age_MY")
+        message.remove("nRotationPeriod")
         return message
     }
 
-    private fun message(location: Location): JsonObject {
+    fun message(location: Location): JsonObject {
         val message = gson.toJsonTree(location).asJsonObject
         removeLocalFields(message)
         message.entrySet().removeIf { it.key.contains("Localised") }
@@ -104,7 +116,7 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
         return message
     }
 
-    private fun message(market: Market, starSystem: String): JsonObject {
+    fun message(market: Market, starSystem: String): JsonObject {
         val message = gson.toJsonTree(market).asJsonObject
         removeLocalFields(message)
         message.remove("exported")
@@ -137,7 +149,7 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
         return message
     }
 
-    private fun message(shipyard: Shipyard, starSystem: String): JsonObject {
+    fun message(shipyard: Shipyard, starSystem: String): JsonObject {
         val message = gson.toJsonTree(shipyard).asJsonObject
         removeLocalFields(message)
         message.remove("economies")
@@ -147,23 +159,18 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
         message.remove("outpostType")
         message.remove("services")
         var array = JsonArray()
+        message["modules"].asJsonObject.entrySet().forEach { array.add(it.value.asJsonObject["name"]) }
+        message.remove("modules")
+        message.add("modules", array)
 
-        if (message.has("modules")) {
-            message["modules"].asJsonObject.entrySet().forEach { array.add(it.value.asJsonObject["name"]) }
-            message.remove("modules")
-            message.add("modules", array)
+        array = JsonArray()
+        message["ships"].asJsonObject["shipyard_list"].asJsonObject.entrySet().forEach { array.add(it.key) }
+        val un = message["ships"].asJsonObject["unavailable_list"]
+        if (!un.isJsonArray) {
+            un.asJsonObject.entrySet().forEach { array.add(it.key) }
         }
-
-        if (message.has("ships")) {
-            array = JsonArray()
-            message["ships"].asJsonObject["shipyard_list"].asJsonObject.entrySet().forEach { array.add(it.key) }
-            val un = message["ships"].asJsonObject["unavailable_list"]
-            if (!un.isJsonArray) {
-                un.asJsonObject.entrySet().forEach { array.add(it.key) }
-            }
-            message.remove("ships")
-            message.add("ships", array)
-        }
+        message.remove("ships")
+        message.add("ships", array)
 
         message.addProperty("stationName", message["name"].asString)
         message.remove("name")
@@ -183,7 +190,7 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
         return message
     }
 
-    private fun removeLocalFields(obj: JsonObject) {
+    fun removeLocalFields(obj: JsonObject) {
         obj.remove("id")
         obj.remove("nLine")
     }
@@ -221,6 +228,7 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
 
                                     json.addProperty("\$schemaRef", COMMODITY_REF)
                                     json.add("message", message(market, lastStarSystem))
+                                    println(json.toString())
                                     sendData(json.toString())
 
                                     val shipyardMessage = message(shipyard, lastStarSystem)
@@ -271,11 +279,20 @@ class EDDNApi(var commander: String = "") : JournalWatcherListener {
         }
     }
 }
-/*
-fun main(args: Array<String>) {
+
+/*fun main(args: Array<String>) {
     val commander = Commander.fromFile("Pr0ves")
+    val api = EDDNApi(commander.name)
     val edapi = EDCompanionApi(commander)
-    edapi.login()
-    val kk = edapi.getMarket()
-    true
+    api.edApi = edapi
+    api.edApi!!.login()
+    val journal = Journal()
+    val dock = "{ \"timestamp\":\"2017-11-09T12:22:21Z\", \"event\":\"Docked\", \"StationName\":\"Patterson Dock\", \"StationType\":\"Orbis\", \"StarSystem\":\"Uszaa\", \"StationFaction\":\"Orrere Energy Company\", \"StationGovernment\":\"\$government_Corporate;\", \"StationGovernment_Localised\":\"Corporate\", \"StationAllegiance\":\"Federation\", \"StationServices\":[ \"Dock\", \"Autodock\", \"BlackMarket\", \"Commodities\", \"Contacts\", \"Exploration\", \"Missions\", \"Outfitting\", \"CrewLounge\", \"Rearm\", \"Refuel\", \"Repair\", \"Shipyard\", \"Tuning\", \"MissionsGenerated\", \"Facilitator\", \"FlightController\", \"StationOperations\", \"Powerplay\", \"SearchAndRescue\" ], \"StationEconomy\":\"\$economy_Industrial;\", \"StationEconomy_Localised\":\"Industrial\", \"DistFromStarLS\":1232.918091 }\n"
+    val docked = journal.getJournalEntryTyped(dock)
+    val fsd = "{ \"timestamp\":\"2017-11-09T12:17:47Z\", \"event\":\"FSDJump\", \"StarSystem\":\"Uszaa\", \"StarPos\":[68.844,48.750,74.750], \"SystemAllegiance\":\"Federation\", \"SystemEconomy\":\"\$economy_Industrial;\", \"SystemEconomy_Localised\":\"Industrial\", \"SystemGovernment\":\"\$government_Corporate;\", \"SystemGovernment_Localised\":\"Corporate\", \"SystemSecurity\":\"\$SYSTEM_SECURITY_low;\", \"SystemSecurity_Localised\":\"Low Security\", \"Population\":3199999988, \"Powers\":[ \"Edmund Mahon\" ], \"PowerplayState\":\"Exploited\", \"JumpDist\":17.790, \"FuelUsed\":2.858732, \"FuelLevel\":78.619148, \"Factions\":[ { \"Name\":\"Pilots Federation Local Branch\", \"FactionState\":\"None\", \"Government\":\"Democracy\", \"Influence\":0.000000, \"Allegiance\":\"PilotsFederation\" }, { \"Name\":\"Uszaa Society\", \"FactionState\":\"Boom\", \"Government\":\"Anarchy\", \"Influence\":0.039039, \"Allegiance\":\"Independent\" }, { \"Name\":\"Uszaa Jet Galactic & Co\", \"FactionState\":\"CivilWar\", \"Government\":\"Corporate\", \"Influence\":0.063063, \"Allegiance\":\"Independent\" }, { \"Name\":\"Orrere Energy Company\", \"FactionState\":\"None\", \"Government\":\"Corporate\", \"Influence\":0.549550, \"Allegiance\":\"Federation\", \"RecoveringStates\":[ { \"State\":\"Boom\", \"Trend\":1 } ] }, { \"Name\":\"Union of Arexe Future\", \"FactionState\":\"Boom\", \"Government\":\"Democracy\", \"Influence\":0.071071, \"Allegiance\":\"Federation\" }, { \"Name\":\"Worker's Party of Uszaa\", \"FactionState\":\"Boom\", \"Government\":\"Communism\", \"Influence\":0.050050, \"Allegiance\":\"Independent\" }, { \"Name\":\"Liberty Party of Uszaa\", \"FactionState\":\"CivilWar\", \"Government\":\"Dictatorship\", \"Influence\":0.069069, \"Allegiance\":\"Independent\" }, { \"Name\":\"Uszaa Gold Travel Group\", \"FactionState\":\"Boom\", \"Government\":\"Corporate\", \"Influence\":0.158158, \"Allegiance\":\"Federation\" } ], \"SystemFaction\":\"Orrere Energy Company\" }\n"
+    val fsdjump = journal.getJournalEntryTyped(fsd)
+    api.getEntries(ArrayList<JournalEntry>().also {
+        it.add(fsdjump)
+        it.add(docked)
+    })
 }*/

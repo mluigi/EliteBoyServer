@@ -10,9 +10,9 @@ class Passenger {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
-    var MissionID: Int? = null
+    var MissionID: Int = 0
     var Type: String? = null
     var VIP: Boolean? = null
     var Wanted: Boolean? = null
-    var Count: Int? = null
+    var Count: Int = 0
 }

@@ -12,5 +12,5 @@ class CargoItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
     var Name: String? = null
-    var Count: Int? = null
+    var Count: Int = 0
 }

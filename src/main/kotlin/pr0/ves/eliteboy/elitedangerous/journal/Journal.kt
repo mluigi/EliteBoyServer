@@ -1,5 +1,7 @@
 package pr0.ves.eliteboy.elitedangerous.journal
 
+import com.google.gson.ExclusionStrategy
+import com.google.gson.FieldAttributes
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
 import mu.KLogging
@@ -63,14 +65,14 @@ class Journal(@Column(unique = true) val filename: String = "") {
             }
         }
         val lines = journal.readLines()
-        lines.forEachIndexed { i, it ->
-
-            entries = entries ?: mutableSetOf()
+        lines.forEach {
+            if (entries == null)
+                entries = mutableSetOf()
 
             val entry = getJournalEntryTyped(it).also { entry ->
                 if (entry is LoadGame)
                     this.cmdr = entry.Commander!!
-                entry.nLine = i
+                entry.nLine = lines.indexOf(it)
                 entry.journal = this
             }
             if (!entries!!.contains(entry)) {
@@ -85,7 +87,7 @@ class Journal(@Column(unique = true) val filename: String = "") {
         }
     }
 
-    private fun getJournalEntryTyped(json: String): JournalEntry {
+    fun getJournalEntryTyped(json: String): JournalEntry {
         val jsonObject = JsonParser().parse(json).asJsonObject
         var type = jsonObject.get("event").asString
         type = "pr0.ves.eliteboy.elitedangerous.journal.events." + type

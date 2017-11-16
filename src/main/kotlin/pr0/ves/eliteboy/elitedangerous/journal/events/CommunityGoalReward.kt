@@ -8,5 +8,5 @@ import javax.persistence.Entity
 class CommunityGoalReward : JournalEntry() {
     var Name: String? = null
     var System: String? = null
-    var Reward: Long? = null
+    var Reward: Long = 0
 }

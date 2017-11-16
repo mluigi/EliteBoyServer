@@ -17,11 +17,11 @@ class ShipModule {
     var LocalisedItem: String? = null
     @SerializedName("On")
     var Enabled: Boolean? = null
-    var Priority: Int? = null
-    var AmmoInClip: Int? = null
-    var AmmoInHopper: Int? = null
+    var Priority: Int = 0
+    var AmmoInClip: Int = 0
+    var AmmoInHopper: Int = 0
     var Blueprint: String? = null
-    var BlueprintLevel: Int? = null
-    var Health: Int? = null
-    var Value: Long? = null
+    var BlueprintLevel: Int = 0
+    var Health: Int = 0
+    var Value: Long = 0
 }

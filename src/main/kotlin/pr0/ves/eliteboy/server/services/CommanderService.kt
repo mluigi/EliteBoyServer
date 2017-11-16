@@ -97,8 +97,8 @@ class CommanderService {
             }
         }
         commander.toFile()
-
-        edApi = edApi ?: EDCompanionApi(commander)
+        if (edApi == null)
+            edApi = EDCompanionApi(commander)
         return when (edApi!!.currentState) {
             NEEDS_LOGIN -> {
                 edApi!!.login()
@@ -145,7 +145,6 @@ class CommanderService {
     @PostConstruct
     fun autoStart() {
         if (commander.restApiPassword.isNotEmpty()) {
-            logger.info { "Starting CMDR ${commander.name}" }
             start()
         }
     }

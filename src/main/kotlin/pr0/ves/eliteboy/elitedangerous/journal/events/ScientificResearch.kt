@@ -7,6 +7,6 @@ import javax.persistence.Entity
 @Entity
 class ScientificResearch : JournalEntry() {
     var Name: String? = null
-    var Count: Int? = null
+    var Count: Int = 0
     var Category: String? = null
 }

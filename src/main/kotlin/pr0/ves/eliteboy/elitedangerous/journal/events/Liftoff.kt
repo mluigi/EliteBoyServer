@@ -6,7 +6,7 @@ import javax.persistence.Entity
 
 @Entity
 class Liftoff : JournalEntry() {
-    var Latitude: Double? = null
-    var Longitude: Double? = null
+    var Latitude: Double = 0.toDouble()
+    var Longitude: Double = 0.toDouble()
     var PlayerControlled: Boolean? = null
 }

@@ -8,5 +8,5 @@ import javax.persistence.Entity
 class PowerplayVote : JournalEntry() {
     var Power: String? = null
     var System: String? = null
-    var Votes: Int? = null
+    var Votes: Int = 0
 }

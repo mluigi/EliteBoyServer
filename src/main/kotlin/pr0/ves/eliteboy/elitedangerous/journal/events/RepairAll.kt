@@ -6,5 +6,5 @@ import javax.persistence.Entity
 
 @Entity
 class RepairAll : JournalEntry() {
-    var Cost: Long? = null
+    var Cost: Long = 0
 }

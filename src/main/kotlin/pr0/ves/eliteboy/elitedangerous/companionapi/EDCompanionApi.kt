@@ -2,11 +2,9 @@ package pr0.ves.eliteboy.elitedangerous.companionapi
 
 import com.google.gson.GsonBuilder
 import mu.KLogging
-import pr0.ves.eliteboy.elitedangerous.companionapi.data.Commodity
 import pr0.ves.eliteboy.elitedangerous.companionapi.data.Market
 import pr0.ves.eliteboy.elitedangerous.companionapi.data.Profile
 import pr0.ves.eliteboy.elitedangerous.companionapi.data.Shipyard
-import pr0.ves.eliteboy.elitedangerous.companionapi.data.deserializers.CommodityDeserializer
 import pr0.ves.eliteboy.server.Commander
 import java.io.DataOutputStream
 import java.net.HttpCookie
@@ -43,11 +41,6 @@ class EDCompanionApi(var commander: Commander) {
         NEEDS_CONFIRMATION,
         READY
     }
-
-    val gson = GsonBuilder()
-            .setPrettyPrinting()
-            .registerTypeAdapter(Commodity::class.java, CommodityDeserializer())
-            .create()!!
 
     fun login() {
         val connection = getRequest(BASE_URL + LOGIN_URL)
@@ -94,6 +87,7 @@ class EDCompanionApi(var commander: Commander) {
         connection.doInput = true
         getResponse(connection)
         val json = getResponseData(connection)
+        val gson = GsonBuilder().setPrettyPrinting().create()
         return gson.fromJson(json, T::class.java) as T
     }
 

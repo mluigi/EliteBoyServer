@@ -15,8 +15,8 @@ class Location : JournalEntry(), LocOrJump {
     var StationType: String? = null
     var Body: String? = null
     var BodyType: String? = null
-    var Latitude: Double? = null
-    var Longitude: Double? = null
+    var Latitude: Double = 0.toDouble()
+    var Longitude: Double = 0.toDouble()
 
     override var StarSystem: String? = null
     @ElementCollection

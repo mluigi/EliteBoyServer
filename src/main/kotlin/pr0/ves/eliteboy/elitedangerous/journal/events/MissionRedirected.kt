@@ -11,6 +11,6 @@ class MissionRedirected : JournalEntry() {
     var NewDestinationSystem: String? = null
     var OldDestinationSystem: String? = null
 
-    var MissionId: Int? = null
+    var MissionId: Int = 0
     var Name: String? = null
 }

@@ -13,6 +13,6 @@ class Friends : JournalEntry() {
     @ElementCollection
     var NameMutableSet: MutableSet<String>? = null
 
-    var OnlineCount: Int? = null        // always counts
-    var OfflineCount: Int? = null
+    var OnlineCount: Int = 0        // always counts
+    var OfflineCount: Int = 0
 }

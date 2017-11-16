@@ -6,10 +6,10 @@ import javax.persistence.Entity
 
 @Entity
 class Progress : JournalEntry() {
-    var Combat: Int? = null         // keep ints for backwards compat
-    var Trade: Int? = null
-    var Explore: Int? = null
-    var Empire: Int? = null
-    var Federation: Int? = null
-    var CQC: Int? = null
+    var Combat: Int = 0         // keep ints for backwards compat
+    var Trade: Int = 0
+    var Explore: Int = 0
+    var Empire: Int = 0
+    var Federation: Int = 0
+    var CQC: Int = 0
 }

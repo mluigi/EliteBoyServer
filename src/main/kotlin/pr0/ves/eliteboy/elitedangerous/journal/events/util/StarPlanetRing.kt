@@ -13,7 +13,7 @@ class StarPlanetRing {
     var id: Long? = null
     var Name: String? = null
     var RingClass: String? = null
-    var MassMT: Double? = null
-    var InnerRad: Double? = null
-    var OuterRad: Double? = null
+    var MassMT: Double = 0.toDouble()
+    var InnerRad: Double = 0.toDouble()
+    var OuterRad: Double = 0.toDouble()
 }

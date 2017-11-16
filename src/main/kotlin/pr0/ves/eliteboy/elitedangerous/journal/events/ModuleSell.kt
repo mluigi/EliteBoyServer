@@ -11,7 +11,7 @@ class ModuleSell : JournalEntry() {
     var SellItem: String? = null
     @SerializedName("SellItem_Localised")
     var SellItemLocalised: String? = null
-    var SellPrice: Long? = null
+    var SellPrice: Long = 0
     var Ship: String? = null
-    var ShipID: Int? = null
+    var ShipID: Int = 0
 }

@@ -8,6 +8,6 @@ import javax.persistence.Entity
 class EngineerApply : JournalEntry() {
     var Engineer: String? = null
     var Blueprint: String? = null
-    var Level: Int? = null
+    var Level: Int = 0
     var Override: String? = null
 }

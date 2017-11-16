@@ -8,6 +8,6 @@ import javax.persistence.Entity
 class SellShipOnRebuy : JournalEntry() {
     var ShipType: String? = null
     var System: String? = null
-    var SellShipId: Int? = null
-    var ShipPrice: Long? = null
+    var SellShipId: Int = 0
+    var ShipPrice: Long = 0
 }

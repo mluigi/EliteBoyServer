@@ -8,7 +8,10 @@ import mu.KLogging
 import pr0.ves.eliteboy.elitedangerous.edsm.data.Log
 import pr0.ves.eliteboy.elitedangerous.edsm.data.System
 import pr0.ves.eliteboy.elitedangerous.journal.JournalEntry
-import pr0.ves.eliteboy.elitedangerous.journal.events.*
+import pr0.ves.eliteboy.elitedangerous.journal.events.FSDJump
+import pr0.ves.eliteboy.elitedangerous.journal.events.LoadGame
+import pr0.ves.eliteboy.elitedangerous.journal.events.Materials
+import pr0.ves.eliteboy.elitedangerous.journal.events.Rank
 import pr0.ves.eliteboy.server.listeners.JournalWatcherListener
 import java.io.DataOutputStream
 import java.net.HttpURLConnection
@@ -137,6 +140,7 @@ class EDSMApi(var commander: String = "", var apiKey: String = "") : JournalWatc
         connection.doInput = true
         val json = "{systems:" + connection.getInputStream().bufferedReader().readText() + "}"
         val jsonArray = JsonParser().parse(json).asJsonObject.getAsJsonArray("systems")
+        println(json)
         val systems = ArrayList<System>()
         jsonArray.forEach {
             systems.add(Gson().fromJson<System>(it.asJsonObject, System::class.java))
@@ -217,7 +221,11 @@ class EDSMApi(var commander: String = "", var apiKey: String = "") : JournalWatc
         connection.connect()
         val json = connection.inputStream.bufferedReader().readText()
         val jsonObject = JsonParser().parse(json).asJsonObject
-        logger.debug { jsonObject["msgnum"].asString + " " + jsonObject["msg"].asString }
+        if (jsonObject.get("msgnum").asInt == 100) {
+            logger.info { "Successfully sent data to EDSM" }
+        } else {
+            logger.error { "Error sending data to EDSM: ${jsonObject["msg"].asString}" }
+        }
     }
 
     fun setLog(jump: FSDJump) {
@@ -230,7 +238,7 @@ class EDSMApi(var commander: String = "", var apiKey: String = "") : JournalWatc
                 "&y=$y" +
                 "&z=$z" +
                 "&systemName=${URLEncoder.encode(jump.StarSystem, "UTF-8")}" +
-                "&dateVisited=${URLEncoder.encode(jump.eventTimeUTC().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), "UTF-8")}"
+                "&dateVisited=${jump.eventTimeUTC().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))}"
         set(BASE_URL + SET_LOG, query)
     }
 
@@ -293,8 +301,8 @@ class EDSMApi(var commander: String = "", var apiKey: String = "") : JournalWatc
         val mats = materials.Manufactured!!
         mats.addAll(materials.Raw!!)
         val map = mutableMapOf<String, Int>()
-        mats.forEach { it ->
-            map[it.Name!!] = it.Count!!
+        mats.forEach {
+            map[it.Name!!] = it.Count
         }
         val query = "type=materials" +
                 "&values=${Gson().toJson(map)}"
@@ -304,24 +312,11 @@ class EDSMApi(var commander: String = "", var apiKey: String = "") : JournalWatc
     fun setData(materials: Materials) {
         val map = mutableMapOf<String, Int>()
         materials.Encoded!!.forEach {
-            map[it.Name!!] = it.Count!!
+            map[it.Name!!] = it.Count
         }
         val query = "type=data" +
                 "&values=${Gson().toJson(map)}"
         set(BASE_URL + SET_MATS, query)
-    }
-
-    fun updateShip(ship: ShipyardSwap) {
-        val query = "shipId=${ship.ShipID}" +
-                "&shipName=${ship.ShipFD}" +
-                "&type=${ship.ShipType}"
-
-        set(BASE_URL + UPDATE_SHIP, query)
-    }
-
-    fun sellShip(ship: ShipyardSell) {
-        val query = "shipId=${ship.SellShipId}"
-        set(BASE_URL + SELL_SHIP, query)
     }
 
     override fun getEntries(entries: ArrayList<JournalEntry>) {
@@ -332,7 +327,8 @@ class EDSMApi(var commander: String = "", var apiKey: String = "") : JournalWatc
                         setLog(it)
                     }
                     is LoadGame -> {
-                        setCredits(it.Credits!!, it.Loan!!)
+                        setCredits(it.Credits, it.Loan)
+
                     }
                     is Rank -> {
                         setRanks(it)
@@ -340,12 +336,6 @@ class EDSMApi(var commander: String = "", var apiKey: String = "") : JournalWatc
                     is Materials -> {
                         setMaterials(it)
                         setData(it)
-                    }
-                    is ShipyardSwap -> {
-                        updateShip(it)
-                    }
-                    is ShipyardSell -> {
-                        sellShip(it)
                     }
                 }
             }

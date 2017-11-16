@@ -6,5 +6,5 @@ import javax.persistence.Entity
 
 @Entity
 class Continued : JournalEntry() {
-    var Part: Int? = null
+    var Part: Int = 0
 }

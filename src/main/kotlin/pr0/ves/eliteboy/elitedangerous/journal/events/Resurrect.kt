@@ -7,6 +7,6 @@ import javax.persistence.Entity
 @Entity
 class Resurrect : JournalEntry() {
     var Option: String? = null
-    var Cost: Long? = null
+    var Cost: Long = 0
     var Bankrupt: Boolean? = null
 }

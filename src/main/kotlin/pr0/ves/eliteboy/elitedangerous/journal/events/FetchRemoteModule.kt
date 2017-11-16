@@ -12,9 +12,9 @@ class FetchRemoteModule : JournalEntry() {
     var StoredItemFD: String? = null
     @SerializedName("StoredItem_Localised")
     var StoredItemLocalised: String? = null
-    var TransferCost: Long? = null
+    var TransferCost: Long = 0
     var Ship: String? = null
-    var ShipID: Int? = null
-    var ServerId: Int? = null
-    var nTransferTime: Int? = null
+    var ShipID: Int = 0
+    var ServerId: Int = 0
+    var nTransferTime: Int = 0
 }

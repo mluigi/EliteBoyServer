@@ -7,6 +7,6 @@ import javax.persistence.Entity
 @Entity
 class PayLegacyFines : JournalEntry() {
 
-    var Amount: Long? = null
-    var BrokerPercentage: Double? = null
+    var Amount: Long = 0
+    var BrokerPercentage: Double = 0.toDouble()
 }

@@ -11,5 +11,5 @@ class BountyReward {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
     var Faction: String? = null
-    var Reward: Long? = null
+    var Reward: Long = 0
 }

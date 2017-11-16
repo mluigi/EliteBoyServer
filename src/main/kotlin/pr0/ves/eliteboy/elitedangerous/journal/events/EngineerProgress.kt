@@ -8,5 +8,5 @@ import javax.persistence.Entity
 class EngineerProgress : JournalEntry() {
     var Engineer: String? = null
     var Progress: String? = null
-    var Rank: Int? = null
+    var Rank: Int = 0
 }

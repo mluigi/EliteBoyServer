@@ -7,5 +7,5 @@ import javax.persistence.Entity
 @Entity
 class PowerplayFastTrack : JournalEntry() {
     var Power: String? = null
-    var Cost: Long? = null
+    var Cost: Long = 0
 }

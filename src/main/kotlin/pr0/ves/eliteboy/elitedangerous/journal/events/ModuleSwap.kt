@@ -16,5 +16,5 @@ class ModuleSwap : JournalEntry() {
     @SerializedName("ToItem_Localised")
     var ToItemLocalised: String? = null
     var Ship: String? = null
-    var ShipID: Int? = null
+    var ShipID: Int = 0
 }

@@ -11,26 +11,26 @@ import javax.persistence.OneToMany
 @Entity
 class Scan : JournalEntry() {
     var BodyName: String? = null
-    var DistanceFromArrivalLS: Double? = null
-    var nRotationPeriod: Double? = null
-    var nSurfaceTemperature: Double? = null
-    var Radius: Double? = null
+    var DistanceFromArrivalLS: Double = 0.toDouble()
+    var nRotationPeriod: Double = 0.toDouble()
+    var nSurfaceTemperature: Double = 0.toDouble()
+    var Radius: Double = 0.toDouble()
     @OneToMany(cascade = arrayOf(CascadeType.ALL), targetEntity = StarPlanetRing::class)
     var Rings: MutableSet<StarPlanetRing>? = null
 
     var StarType: String? = null
-    var StellarMass: Double? = null
-    var AbsoluteMagnitude: Double? = null
+    var StellarMass: Double = 0.toDouble()
+    var AbsoluteMagnitude: Double = 0.toDouble()
     var Luminosity: String? = null
     @SerializedName("Age_MY")
-    var Age: Double? = null
+    var Age: Double = 0.toDouble()
 
-    var SemiMajorAxis: Double? = null
-    var Eccentricity: Double? = null
-    var OrbitalInclination: Double? = null
-    var Periapsis: Double? = null
-    var OrbitalPeriod: Double? = null
-    var AxialTilt: Double? = null
+    var SemiMajorAxis: Double = 0.toDouble()
+    var Eccentricity: Double = 0.toDouble()
+    var OrbitalInclination: Double = 0.toDouble()
+    var Periapsis: Double = 0.toDouble()
+    var OrbitalPeriod: Double = 0.toDouble()
+    var AxialTilt: Double = 0.toDouble()
 
     var PlanetClass: String? = null
     var TidalLock: Boolean? = null
@@ -39,10 +39,10 @@ class Scan : JournalEntry() {
     @OneToMany(cascade = arrayOf(CascadeType.ALL), targetEntity = AtmoOrMat::class)
     var AtmosphereComposition: MutableSet<AtmoOrMat>? = null
     var Volcanism: String? = null
-    var SurfaceGravity: Double? = null
-    var SurfacePressure: Double? = null
+    var SurfaceGravity: Double = 0.toDouble()
+    var SurfacePressure: Double = 0.toDouble()
     var Landable: Boolean? = null
-    var MassEM: Double? = null
+    var MassEM: Double = 0.toDouble()
     @OneToMany(cascade = arrayOf(CascadeType.ALL), targetEntity = AtmoOrMat::class)
     var Materials: MutableSet<AtmoOrMat>? = null
     var ReserveLevel: String? = null

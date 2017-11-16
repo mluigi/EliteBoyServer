@@ -10,7 +10,7 @@ class Factions {
     var Name: String? = null
     var FactionState: String? = null
     var Government: String? = null
-    var Influence: Double? = null
+    var Influence: Double = 0.toDouble()
     var Allegiance: String? = null
     @OneToMany(cascade = arrayOf(CascadeType.ALL), targetEntity = PowerState::class)
     var PendingStates: MutableSet<PowerState>? = null

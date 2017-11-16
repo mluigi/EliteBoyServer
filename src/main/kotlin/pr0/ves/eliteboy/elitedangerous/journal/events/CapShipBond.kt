@@ -8,5 +8,5 @@ import javax.persistence.Entity
 class CapShipBond : JournalEntry() {
     var AwardingFaction: String? = null
     var VictimFaction: String? = null
-    var Reward: Long? = null
+    var Reward: Long = 0
 }

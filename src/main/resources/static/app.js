@@ -1,5 +1,3 @@
-//This is just a test js interface for the server websocket
-
 var client = null;
 
 function setConnected(connected) {
@@ -15,7 +13,6 @@ function setConnected(connected) {
 }
 
 function connect() {
-    //TODO change hardcoded local IP
     client = Stomp.client('ws://192.168.1.6:8080/api/cmdr/listenForEntries');
     client.connect({}, function (frame) {
         setConnected(true);

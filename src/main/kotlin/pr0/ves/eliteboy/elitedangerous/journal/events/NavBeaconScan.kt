@@ -6,5 +6,5 @@ import javax.persistence.Entity
 
 @Entity
 class NavBeaconScan : JournalEntry() {
-    var NumBodies: Int? = null
+    var NumBodies: Int = 0
 }
