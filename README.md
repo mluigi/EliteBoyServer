@@ -50,14 +50,14 @@ The token must be requested every time a session is started.
   - GET `/api/cmdr/edsm/findSystemsByName` => Retrieves basic information of systems that starts with `name`.
   Parameters:
     + `name`: String
-  - GET `/api/cmdr/edsm/findSystemInSphere` => Retrieves basic information in sphere. One between `system` or the coordinates must be provided.
+  - GET `/api/cmdr/edsm/findSystemInSphere` => Retrieves basic information of systems in sphere. One between `system` or the coordinates must be provided.
   Parameters:
     + `system`: String
     + `x`: Double
     + `y`: Double
     + `z`: Double
     + `radius`: Int
-  - GET `/api/cmdr/edsm/findSystemsInCube` => Retrieves basic information in cube. One between `system` or the coordinates must be provided.
+  - GET `/api/cmdr/edsm/findSystemsInCube` => Retrieves basic information of systems in cube. One between `system` or the coordinates must be provided.
   Parameters:
     + `system`: String
     + `x`: Double
