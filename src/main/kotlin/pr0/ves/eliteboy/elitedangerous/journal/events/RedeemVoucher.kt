@@ -7,7 +7,7 @@ import javax.persistence.Entity
 @Entity
 class RedeemVoucher : JournalEntry() {
     var Type: String? = null
-    var Amount: Long = 0
+    var Amount: Long? = null
     var Faction: String? = null
-    var BrokerPercentage: Double = 0.toDouble()
+    var BrokerPercentage: Double? = null
 }

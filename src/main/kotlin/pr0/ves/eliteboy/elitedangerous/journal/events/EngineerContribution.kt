@@ -11,6 +11,6 @@ class EngineerContribution : JournalEntry() {
     var Type: String? = null
     var Commodity: String? = null
     var Material: String? = null
-    var Quantity: Int = 0
-    var TotalQuantity: Int = 0
+    var Quantity: Int? = null
+    var TotalQuantity: Int? = null
 }

@@ -9,7 +9,7 @@ import javax.persistence.OneToMany
 @Entity
 class Loadout : JournalEntry() {
     var Ship: String? = null
-    var ShipID: Int = 0
+    var ShipID: Int? = null
     var ShipName: String? = null
     var ShipIdent: String? = null
     @OneToMany(cascade = arrayOf(CascadeType.ALL), targetEntity = ShipModule::class)

@@ -11,5 +11,5 @@ class AtmoOrMat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
     var Name: String? = null
-    var Percent: Double = 0.toDouble()
+    var Percent: Double? = null
 }

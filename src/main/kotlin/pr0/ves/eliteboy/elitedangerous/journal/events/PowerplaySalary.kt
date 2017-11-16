@@ -7,5 +7,5 @@ import javax.persistence.Entity
 @Entity
 class PowerplaySalary : JournalEntry() {
     var Power: String? = null
-    var Amount: Long = 0
+    var Amount: Long? = null
 }

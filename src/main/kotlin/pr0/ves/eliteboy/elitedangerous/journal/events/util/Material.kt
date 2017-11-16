@@ -11,5 +11,5 @@ class Material {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
     var Name: String? = null
-    var Count: Int = 0
+    var Count: Int? = null
 }

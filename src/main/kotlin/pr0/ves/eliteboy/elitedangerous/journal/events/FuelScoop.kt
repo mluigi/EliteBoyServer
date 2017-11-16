@@ -6,6 +6,6 @@ import javax.persistence.Entity
 
 @Entity
 class FuelScoop : JournalEntry() {
-    var Scooped: Double = 0.toDouble()
-    var Total: Double = 0.toDouble()
+    var Scooped: Double? = null
+    var Total: Double? = null
 }

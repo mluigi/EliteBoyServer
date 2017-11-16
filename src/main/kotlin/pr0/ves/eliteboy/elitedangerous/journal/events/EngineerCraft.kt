@@ -8,7 +8,7 @@ import javax.persistence.Entity
 class EngineerCraft : JournalEntry() {
     var Engineer: String? = null
     var Blueprint: String? = null
-    var Level: Int = 0
+    var Level: Int? = null
     var Ingredients: BlueprintIngredients? = null
 
 

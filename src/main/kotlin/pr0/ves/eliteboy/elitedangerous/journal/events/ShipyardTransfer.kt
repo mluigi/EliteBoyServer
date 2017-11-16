@@ -7,9 +7,9 @@ import javax.persistence.Entity
 @Entity
 class ShipyardTransfer : JournalEntry() {
     var ShipType: String? = null
-    var ShipID: Int = 0
+    var ShipID: Int? = null
     var System: String? = null
-    var Distance: Double = 0.toDouble()
-    var TransferPrice: Long = 0
-    var nTransferTime: Int = 0
+    var Distance: Double? = null
+    var TransferPrice: Long? = null
+    var nTransferTime: Int? = null
 }

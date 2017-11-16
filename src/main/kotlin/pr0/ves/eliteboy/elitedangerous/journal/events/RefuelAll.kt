@@ -6,6 +6,6 @@ import javax.persistence.Entity
 
 @Entity
 class RefuelAll : JournalEntry() {
-    var Cost: Long = 0
-    var Amount: Double = 0.toDouble()
+    var Cost: Long? = null
+    var Amount: Double? = null
 }

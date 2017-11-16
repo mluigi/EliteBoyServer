@@ -7,7 +7,7 @@ import javax.persistence.Entity
 @Entity
 class EjectCargo : JournalEntry() {
     var Type: String? = null
-    var Count: Int = 0
+    var Count: Int? = null
     var Abandoned: Boolean? = null
     var PowerplayOrigin: String? = null
 }

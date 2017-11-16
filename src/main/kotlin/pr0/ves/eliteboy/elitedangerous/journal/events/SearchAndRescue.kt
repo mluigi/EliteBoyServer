@@ -8,6 +8,6 @@ import javax.persistence.Entity
 class SearchAndRescue : JournalEntry() {
     var Name: String? = null
     var FriendlyName: String? = null
-    var Count: Int = 0
-    var Reward: Long = 0
+    var Count: Int? = null
+    var Reward: Long? = null
 }

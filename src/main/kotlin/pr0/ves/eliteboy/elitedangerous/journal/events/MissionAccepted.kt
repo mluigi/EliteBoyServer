@@ -25,14 +25,14 @@ class MissionAccepted : JournalEntry() {
     fun expiry(): OffsetDateTime = OffsetDateTime.parse(Expiry)
     var Influence: String? = null
     var Reputation: String? = null
-    var MissionId: Int = 0
+    var MissionId: Int? = null
 
     var Commodity: String? = null
     @SerializedName("Commodity_Localised")
     var CommodityLocalised: String? = null
-    var Count: Int = 0
+    var Count: Int? = null
 
-    var PassengerCount: Int = 0
+    var PassengerCount: Int? = null
     var PassengerVIPs: Boolean? = null
     var PassengerWanted: Boolean? = null
     var PassengerType: String? = null

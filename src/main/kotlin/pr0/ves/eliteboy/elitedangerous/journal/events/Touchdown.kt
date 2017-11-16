@@ -7,7 +7,7 @@ import javax.persistence.Entity
 @Entity
 class Touchdown : JournalEntry() {
 
-    var Latitude: Double = 0.toDouble()
-    var Longitude: Double = 0.toDouble()
+    var Latitude: Double? = null
+    var Longitude: Double? = null
     var PlayerControlled: Boolean? = null
 }

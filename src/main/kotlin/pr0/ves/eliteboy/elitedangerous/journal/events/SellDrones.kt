@@ -7,7 +7,7 @@ import javax.persistence.Entity
 @Entity
 class SellDrones : JournalEntry() {
     var Type: String? = null
-    var Count: Int = 0
-    var SellPrice: Long = 0
-    var TotalSale: Long = 0
+    var Count: Int? = null
+    var SellPrice: Long? = null
+    var TotalSale: Long? = null
 }

@@ -8,6 +8,6 @@ import javax.persistence.Entity
 class RestockVehicle : JournalEntry() {
     var Type: String? = null
     var Loadout: String? = null
-    var Cost: Long = 0
-    var Count: Int = 0
+    var Cost: Long? = null
+    var Count: Int? = null
 }

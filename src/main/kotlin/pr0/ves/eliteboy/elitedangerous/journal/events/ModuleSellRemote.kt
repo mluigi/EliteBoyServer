@@ -12,8 +12,8 @@ class ModuleSellRemote : JournalEntry() {
     var SellItem: String? = null
     @SerializedName("SellItem_Localised")
     var SellItemLocalised: String? = null
-    var SellPrice: Long = 0
+    var SellPrice: Long? = null
     var Ship: String? = null
-    var ShipID: Int = 0
-    var ServerId: Int = 0
+    var ShipID: Int? = null
+    var ServerId: Int? = null
 }

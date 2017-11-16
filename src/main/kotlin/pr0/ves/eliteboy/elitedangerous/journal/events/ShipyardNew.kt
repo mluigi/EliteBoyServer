@@ -7,5 +7,5 @@ import javax.persistence.Entity
 @Entity
 class ShipyardNew : JournalEntry() {
     var ShipType: String? = null
-    var NewShipId: Int = 0
+    var NewShipId: Int? = null
 }

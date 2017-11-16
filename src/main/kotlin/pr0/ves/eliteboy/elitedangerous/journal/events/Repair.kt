@@ -8,5 +8,5 @@ import javax.persistence.Entity
 class Repair : JournalEntry() {
     var Item: String? = null
     var ItemLocalised: String? = null
-    var Cost: Long = 0
+    var Cost: Long? = null
 }

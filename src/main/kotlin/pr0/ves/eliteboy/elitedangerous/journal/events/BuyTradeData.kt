@@ -7,5 +7,5 @@ import javax.persistence.Entity
 @Entity
 class BuyTradeData : JournalEntry() {
     var System: String? = null
-    var Cost: Long = 0
+    var Cost: Long? = null
 }
